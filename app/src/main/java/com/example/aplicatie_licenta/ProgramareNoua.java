@@ -43,6 +43,7 @@ public class ProgramareNoua extends AppCompatActivity {
         initViews();
         selectareData();
 
+
     }
 
     private void initViews() {
@@ -56,25 +57,19 @@ public class ProgramareNoua extends AppCompatActivity {
     }
 
     private void selectareData(){
-        DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR,year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-                tvDataProgramare.setText(simpleDateFormat.format(calendar.getTime()));
-            }
+        DatePickerDialog.OnDateSetListener onDateSetListener = (view, year, month, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR,year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+            tvDataProgramare.setText(simpleDateFormat.format(calendar.getTime()));
         };
 
-        ibAlegeData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog( ProgramareNoua.this,onDateSetListener,
-                        calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
-                datePickerDialog.show();
-            }
+        ibAlegeData.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog( ProgramareNoua.this,onDateSetListener,
+                    calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+            datePickerDialog.show();
         });
     }
 }
