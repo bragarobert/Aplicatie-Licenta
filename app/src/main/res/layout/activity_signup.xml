@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".autentificare_inregistrare.SignupActivity"
+    android:orientation="vertical"
+
+    android:background="#d4d4d4"
+    >
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="311dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_logo"
+        android:layout_margin="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="40dp">
+
+        <TextView
+            android:id="@+id/tv_inregistrare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/inregistrare_cont"
+            android:textSize="25sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/nume"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:startIconDrawable="@drawable/ic_baseline_person_outline_24">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="15" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/email"
+            app:startIconDrawable="@drawable/ic_baseline_email_24">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_parola"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/pass"
+            app:helperText="@string/parola_pattern"
+            app:helperTextTextColor="@color/teal_700"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_parola"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_confirma_parola"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/confirm_pass"
+            app:startIconDrawable="@drawable/ic_baseline_lock_open_24"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_confirma_parola"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/til_data_nasterii"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:hint="@string/data_nasterii"-->
+<!--            app:helperText="@string/optional"-->
+<!--            app:helperTextTextColor="@color/teal_700"-->
+<!--            app:startIconDrawable="@drawable/ic_baseline_calendar_today_24"-->
+<!--            >-->
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/tiet_data_nasterii"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="date" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+        <Button
+            android:id="@+id/btn_creare_cont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/creeaza"
+            />
+
+        <TextView
+            android:id="@+id/tw_cont_existent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/cont_existent" />
+
+    </LinearLayout>
+
+</LinearLayout>

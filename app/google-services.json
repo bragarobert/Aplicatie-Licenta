@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "688806022282",
+    "project_id": "the-barber-s-house",
+    "storage_bucket": "the-barber-s-house.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688806022282:android:42636e15ba11ca19b1f173",
+        "android_client_info": {
+          "package_name": "com.example.aplicatie_licenta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688806022282-trp5fdmd7c0ah8apbp0s0qm5vun7h1ob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwFyHxtvEH8_Us7WDMewZ28jIOWhEyFCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688806022282-trp5fdmd7c0ah8apbp0s0qm5vun7h1ob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

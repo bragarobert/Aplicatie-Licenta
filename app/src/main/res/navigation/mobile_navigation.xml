@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_profil">
+
+    <fragment
+        android:id="@+id/nav_profil"
+        android:name="com.example.aplicatie_licenta.fragmente.ProfilFragment"
+        android:label="@string/menu_profil"
+        tools:layout="@layout/fragment_profil" />
+
+    <fragment
+        android:id="@+id/nav_servicii"
+        android:name="com.example.aplicatie_licenta.fragmente.ServiciiFragment"
+        android:label="@string/menu_servicii"
+        tools:layout="@layout/fragment_servicii" />
+
+    <fragment
+        android:id="@+id/nav_frizeri"
+        android:name="com.example.aplicatie_licenta.fragmente.FrizeriFragment"
+        android:label="@string/menu_frizeri"
+        tools:layout="@layout/fragment_frizeri" />
+
+    <fragment
+        android:id="@+id/nav_locatii"
+        android:name="com.example.aplicatie_licenta.fragmente.LocatiiFragment"
+        android:label="@string/locatie"
+        tools:layout="@layout/fragment_locatii"/>
+</navigation>

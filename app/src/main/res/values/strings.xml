@@ -1,0 +1,42 @@
+<resources>
+    <string name="facebook_app_id">143772437604200</string>
+
+
+    <string name="app_name">The Barber\'s House</string>
+    <string name="email">Email*</string>
+    <string name="pass">Parolă*</string>
+    <string name="intraincont">Intră în cont</string>
+    <string name="confirm_pass">Confirmă parola*</string>
+    <string name="nume">Nume utilizator*</string>
+    <string name="creeaza">Creează cont</string>
+    <string name="cont_existent">Ai deja cont? Apasă aici pentru a te conecta!</string>
+    <string name="inregistrare">Înregistrează-te</string>
+    <string name="nu_exista_cont">Nu ai cont încă?</string>
+    <string name="inregistrare_cont">Înregistrare</string>
+    <string name="parola_pattern">Folosiți minimum 6 caractere din categoriile litere mari, litere mici, cifre și simboluri.</string>
+    <string name="email_login">Email</string>
+    <string name="pass_login">Parolă</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="locatie">Locatii</string>
+    <string name="autentificare_succes">Autentificare realizată cu succes!</string>
+    <string name="delogare">Delogare</string>
+    <string name="menu_profil">Profil</string>
+    <string name="menu_servicii">Servicii</string>
+    <string name="menu_frizeri">Frizeri</string>
+    <string name="programare">Adauga programare</string>
+    <string name="serviciu">Serviciu</string>
+    <string name="descriere_serviciu">Descriere serviciu</string>
+    <string name="nume_frizer">Nume Frizer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="data_programare">Data rezervare</string>
+    <string name="rezerva">Rezerva</string>
+
+</resources>
