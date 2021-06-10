@@ -32,14 +32,12 @@ public class ServiciuAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_servicii,parent,false);
         ViewHolderClass viewHolderClass = new ViewHolderClass(view);
-
         return viewHolderClass;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolderClass viewHolderClass = (ViewHolderClass)holder;
-
         Serviciu serviciu = servicii.get(position);
         viewHolderClass.tvDenumire.setText(serviciu.getDenumire());
         viewHolderClass.tvDescriere.setText(serviciu.getDescriere());

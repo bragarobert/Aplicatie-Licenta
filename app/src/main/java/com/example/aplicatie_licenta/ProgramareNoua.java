@@ -1,11 +1,14 @@
 package com.example.aplicatie_licenta;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -13,12 +16,17 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class ProgramareNoua extends AppCompatActivity {
@@ -32,16 +40,91 @@ public class ProgramareNoua extends AppCompatActivity {
     private Button btnRezerva;
 
     final Calendar calendar = Calendar.getInstance();
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programare_noua);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference();
         initViews();
         selectareData();
+
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("Servicii");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> servicii = new ArrayList<>();
+
+                for( DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    String denumire = dataSnapshot.child("Denumire").getValue().toString();
+                    servicii.add(denumire);
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ProgramareNoua.this,R.layout.support_simple_spinner_dropdown_item,servicii);
+                adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                spServiciu.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Locatii");
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<String> locatii = new ArrayList<>();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    String locatie = dataSnapshot.child("Adresa").getValue().toString();
+                    locatii.add(locatie);
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ProgramareNoua.this,R.layout.support_simple_spinner_dropdown_item,locatii);
+                adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                spSalon.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        spSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String val = spSalon.getSelectedItem().toString();
+                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("Locatii");
+                databaseReference2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<String> frizeri = new ArrayList<>();
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            if(dataSnapshot.child("Adresa").getValue().toString().equals(val)) {
+                                for(DataSnapshot dataSnapshotFrizer:dataSnapshot.child("Frizeri").getChildren()){
+                                    String valoare = dataSnapshotFrizer.child("Nume").getValue().toString();
+                                    frizeri.add(valoare);
+                                }
+                            }
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(ProgramareNoua.this,R.layout.support_simple_spinner_dropdown_item,frizeri);
+                        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                        spFrizer.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }

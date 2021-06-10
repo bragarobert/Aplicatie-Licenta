@@ -36,7 +36,11 @@
     <string name="nume_frizer">Nume Frizer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="data_programare">Data rezervare</string>
+    <string name="data_programare">Alegeti data pentru programare</string>
     <string name="rezerva">Rezerva</string>
+    <string name="tvSpSalon">Alegeti salonul</string>
+    <string name="tvSpFrizer">Alegeti frizerul</string>
+    <string name="tvSpServiciu">Alegeti serviciul</string>
+    <string name="varsta_frizer">Varsta</string>
 
 </resources>
