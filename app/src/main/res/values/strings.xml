@@ -50,5 +50,8 @@
     <string name="remember">Ține-mă minte</string>
     <string name="descriere_frizer">Descriere frizer</string>
     <string name="alege_locatia">Alegeți locația</string>
+    <string name="denumire_salon">Denumire</string>
+    <string name="adresa">Adresa</string>
+    <string name="contact">Contact</string>
 
 </resources>
