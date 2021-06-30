@@ -1,4 +1,4 @@
-package com.example.aplicatie_licenta;
+package com.example.aplicatie_licenta.utils;
 
 public class Serviciu {
     private String denumire;

@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,10 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aplicatie_licenta.Frizer;
 import com.example.aplicatie_licenta.R;
-import com.example.aplicatie_licenta.Serviciu;
-import com.example.aplicatie_licenta.adapters.FrizerAdapter;
+import com.example.aplicatie_licenta.utils.Serviciu;
 import com.example.aplicatie_licenta.adapters.ServiciuAdapter;
 import com.example.aplicatie_licenta.utils.SpacingItemDecorator;
 import com.google.firebase.database.ChildEventListener;
@@ -24,7 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -47,5 +47,8 @@
     <string name="email_parola_trimis">Emailul de resetare al parolei a fost trimis</string>
     <string name="email_parola_netrimis">Emailul de resetare nu a putut fi trimis</string>
     <string name="pret">Pret</string>
+    <string name="remember">Ține-mă minte</string>
+    <string name="descriere_frizer">Descriere frizer</string>
+    <string name="alege_locatia">Alegeți locația</string>
 
 </resources>

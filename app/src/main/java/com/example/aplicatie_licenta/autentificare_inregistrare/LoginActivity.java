@@ -5,10 +5,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +55,10 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
     private TextInputEditText  tiet_email;
     private TextInputEditText tiet_parola;
     private TextView tv_resetare;
+    private CheckBox cbRemember;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
+    private static final String PREFS_NAME = "salvare_date";
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -72,11 +77,14 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         btn_login = findViewById(R.id.btn_intra_in_cont);
         tiet_email = findViewById(R.id.input_email);
         tiet_parola = findViewById(R.id.input_password);
+        cbRemember = findViewById(R.id.cb_remember_me);
 
         tv_resetare.setOnClickListener(v -> {
             CustomDialog customDialog = new CustomDialog();
             customDialog.show(getSupportFragmentManager(),"custom dialog");
         });
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +96,17 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                    if(cbRemember.isChecked()){
+                                        Boolean boolIsChecked = cbRemember.isChecked();
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("pref_email", tiet_email.getText().toString());
+                                        editor.putString("pref_pass", tiet_parola.getText().toString());
+                                        editor.putBoolean("pref_checked", boolIsChecked);
+                                        editor.apply();
+                                    }
+                                    else{
+                                        sharedPreferences.edit().clear().apply();
+                                    }
                                     Toast.makeText(LoginActivity.this, "Autentificare cu succes", Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                                     finish();
@@ -102,9 +121,6 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
                 }
             }
         });
-
-
-
 
         //Facebook Login
         mAuth = FirebaseAuth.getInstance();
@@ -142,7 +158,26 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
             }
         });
 
-    };
+        getPreferencesData();
+    }
+
+    private void getPreferencesData() {
+        SharedPreferences sp = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        if (sp.contains("pref_email")) {
+            String e = sp.getString("pref_email", "nu a fost gasit");
+            tiet_email.setText(e.toString());
+        }
+        if (sp.contains("pref_pass")) {
+            String p = sp.getString("pref_pass", "nu a fost gasit");
+            tiet_parola.setText(p.toString());
+        }
+        if (sp.contains("pref_checked")) {
+            Boolean b = sp.getBoolean("pref_checked", false);
+            cbRemember.setChecked(b);
+        }
+    }
+
+
 
     private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
