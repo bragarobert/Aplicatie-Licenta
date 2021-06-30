@@ -11,7 +11,7 @@
     <string name="creeaza">Creează cont</string>
     <string name="cont_existent">Ai deja cont? Apasă aici pentru a te conecta!</string>
     <string name="inregistrare">Înregistrează-te</string>
-    <string name="nu_exista_cont">Nu ai cont încă?</string>
+    <string name="nu_exista_cont">Resetare parola</string>
     <string name="inregistrare_cont">Înregistrare</string>
     <string name="parola_pattern">Folosiți minimum 6 caractere din categoriile litere mari, litere mici, cifre și simboluri.</string>
     <string name="email_login">Email</string>
@@ -42,5 +42,9 @@
     <string name="tvSpFrizer">Alegeti frizerul</string>
     <string name="tvSpServiciu">Alegeti serviciul</string>
     <string name="varsta_frizer">Varsta</string>
+    <string name="verificare_email">Înregistrare cu succes! Verificați adresa de email pentru a putea utiliza contul</string>
+    <string name="email_neverificat">Verificati va rog adresa de email</string>
+    <string name="email_parola_trimis">Emailul de resetare al parolei a fost trimis</string>
+    <string name="email_parola_netrimis">Emailul de resetare nu a putut fi trimis</string>
 
 </resources>

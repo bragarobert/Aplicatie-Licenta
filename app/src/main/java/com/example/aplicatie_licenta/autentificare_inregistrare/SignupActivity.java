@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -65,17 +66,24 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void scrieUtilizatorInBazaDeDate(String nume, String email, String parola) {
-        firebaseAuth.createUserWithEmailAndPassword(email,parola).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(SignupActivity.this, "Inregistrare cu succes",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                    finish();
-                }
-                else{
-                    Toast.makeText(SignupActivity.this,"Inregistrare nereusita. Exista deja un cont cu aceasta adresa de email",Toast.LENGTH_LONG).show();
-                }
+        firebaseAuth.createUserWithEmailAndPassword(email,parola).addOnCompleteListener(this, task -> {
+            if(task.isSuccessful()){
+                firebaseAuth.getCurrentUser().sendEmailVerification()
+                        .addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(SignupActivity.this, R.string.verificare_email,Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(SignupActivity.this, task1.getException().getMessage(),Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+            }
+            else{
+                Toast.makeText(SignupActivity.this,"Inregistrare nereusita. Exista deja un cont cu aceasta adresa de email",Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -1,16 +1,20 @@
 package com.example.aplicatie_licenta.autentificare_inregistrare;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aplicatie_licenta.MenuActivity;
 import com.example.aplicatie_licenta.R;
+import com.example.aplicatie_licenta.utils.CustomDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,7 +40,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements CustomDialog.CustomDialogListener {
 
 
     private LoginButton loginButton;
@@ -47,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private TextInputEditText  tiet_email;
     private TextInputEditText tiet_parola;
+    private TextView tv_resetare;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
 
@@ -62,10 +68,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
+        tv_resetare = findViewById(R.id.tv_nu_exista_cont);
         btn_login = findViewById(R.id.btn_intra_in_cont);
         tiet_email = findViewById(R.id.input_email);
         tiet_parola = findViewById(R.id.input_password);
+
+        tv_resetare.setOnClickListener(v -> {
+            CustomDialog customDialog = new CustomDialog();
+            customDialog.show(getSupportFragmentManager(),"custom dialog");
+        });
+
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +87,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Autentificare cu succes",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                            finish();
+                            if(firebaseAuth.getCurrentUser().isEmailVerified()){
+                                Toast.makeText(LoginActivity.this, "Autentificare cu succes",Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(LoginActivity.this, R.string.email_neverificat,Toast.LENGTH_LONG).show();
+                            }
                         }
                         else{
-                            Toast.makeText(LoginActivity.this,"Autentificare nereusita",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this,"Autentificare nereusita! Contul nu exista",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -96,8 +113,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.facebook_login_button);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setPermissions(Arrays.asList("email","public_profile"));
-
-
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -121,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         //Google login
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
         createRequest();
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,10 +147,27 @@ public class LoginActivity extends AppCompatActivity {
 
     };
 
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, R.string.autentificare_succes, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this,MenuActivity.class));
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
 
+    //google
     private void createRequest(){
-        // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -143,32 +175,26 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-    }//google
+    }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    } // google
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
 
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG).show();
             }
         }
-
         callbackManager.onActivityResult(requestCode,resultCode,data);
     }
 
@@ -179,60 +205,25 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, R.string.autentificare_succes, Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this,MenuActivity.class));
                         } else {
-                            // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this,"Failed1",Toast.LENGTH_LONG).show();
                         }
                     }
-                });
+        });
     }
 
-
-
- /*   @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
-    }*/
-
-/*    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Checking if the user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            //Log.d(TAG, "Currently Signed in: " + currentUser.getEmail());
-            //Toast.makeText(LoginActivity.this, "Currently Logged in: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
-        }
-    }*/
-
-    private void handleFacebookAccessToken(AccessToken token) {
-//        Log.d(TAG, "handleFacebookAccessToken:" + token);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, UI will update with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, R.string.autentificare_succes, Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this,MenuActivity.class));
-                        } else {
-                            // If sign-in fails, a message will display to the user.
-                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    @Override
+    public void trimite(String email) {
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(LoginActivity.this, R.string.email_parola_trimis, Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(LoginActivity.this, R.string.email_parola_netrimis, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
 
