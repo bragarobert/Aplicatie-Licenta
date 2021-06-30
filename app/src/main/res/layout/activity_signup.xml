@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".autentificare_inregistrare.SignupActivity"
     android:orientation="vertical"
-
-    android:background="#d4d4d4"
+    android:background="#fff1e6"
     >
 
     <ImageView

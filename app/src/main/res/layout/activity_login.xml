@@ -7,15 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".autentificare_inregistrare.LoginActivity"
-    android:background="#d9d9d9"
+    android:background="#fff1e6"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="center"
-
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -64,8 +62,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <Button
-            android:layout_width="wrap_content"
+        <android.widget.Button
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
@@ -75,6 +73,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:background="@drawable/outlined_button"
             />
 
         <TextView
@@ -83,25 +83,30 @@
             android:layout_gravity="center"
             android:text="@string/nu_exista_cont"
             android:id="@+id/tv_nu_exista_cont"
+            android:layout_margin="20dp"
             app:layout_constraintTop_toBottomOf="@id/btn_intra_in_cont"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15sp"/>
 
-        <Button
 
+        <android.widget.Button
+            android:background="@drawable/button"
             android:id="@+id/btn_inregistrare"
-            android:layout_width="187dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="20dp"
             android:text="@string/inregistrare"
             app:layout_constraintTop_toBottomOf="@id/tv_nu_exista_cont"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/facebook_login_button"
-            android:layout_width="wrap_content"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
@@ -109,11 +114,12 @@
             app:layout_constraintTop_toBottomOf="@id/btn_inregistrare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
             />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
-            android:layout_width="191dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:layout_constraintTop_toBottomOf="@id/facebook_login_button"

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".fragmente.ServiciiFragment"
     android:orientation="vertical"
+    android:background="#fff1e6"
     >
 
     <androidx.recyclerview.widget.RecyclerView

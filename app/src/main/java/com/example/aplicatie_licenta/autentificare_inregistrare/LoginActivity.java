@@ -82,26 +82,24 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mAuth.signInWithEmailAndPassword(tiet_email.getText().toString(),tiet_parola.getText().toString()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            if(firebaseAuth.getCurrentUser().isEmailVerified()){
-                                Toast.makeText(LoginActivity.this, "Autentificare cu succes",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                                finish();
-                            }
-                            else{
-                                Toast.makeText(LoginActivity.this, R.string.email_neverificat,Toast.LENGTH_LONG).show();
+                if(!(tiet_email.getText().toString().isEmpty() && tiet_parola.getText().toString().isEmpty())) {
+                    mAuth.signInWithEmailAndPassword(tiet_email.getText().toString(), tiet_parola.getText().toString()).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                                    Toast.makeText(LoginActivity.this, "Autentificare cu succes", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, R.string.email_neverificat, Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Autentificare nereusita! Contul nu exista", Toast.LENGTH_LONG).show();
                             }
                         }
-                        else{
-                            Toast.makeText(LoginActivity.this,"Autentificare nereusita! Contul nu exista",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
+                    });
+                }
             }
         });
 
@@ -136,7 +134,6 @@ public class LoginActivity extends AppCompatActivity implements CustomDialog.Cus
         //Google login
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_ICON_ONLY);
         createRequest();
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override

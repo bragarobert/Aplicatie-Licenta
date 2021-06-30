@@ -41,6 +41,7 @@ public class ServiciuAdapter extends RecyclerView.Adapter {
         Serviciu serviciu = servicii.get(position);
         viewHolderClass.tvDenumire.setText(serviciu.getDenumire());
         viewHolderClass.tvDescriere.setText(serviciu.getDescriere());
+        viewHolderClass.tvPret.setText(String.valueOf(serviciu.getPret()) + " RON");
         Picasso.get().load(serviciu.getImagine()).into(viewHolderClass.ivImagine);
     }
 
@@ -50,13 +51,14 @@ public class ServiciuAdapter extends RecyclerView.Adapter {
     }
 
     public class ViewHolderClass extends RecyclerView.ViewHolder{
-        TextView tvDenumire, tvDescriere;
+        TextView tvDenumire, tvDescriere, tvPret;
         ImageView ivImagine;
 
         public ViewHolderClass(@NonNull View itemView) {
             super(itemView);
             tvDenumire = itemView.findViewById(R.id.tv_serviciu);
             tvDescriere = itemView.findViewById(R.id.tv_descriere_serviciu);
+            tvPret = itemView.findViewById(R.id.tv_pret_serviciu);
             ivImagine = itemView.findViewById(R.id.iv_serviciu);
         }
     }

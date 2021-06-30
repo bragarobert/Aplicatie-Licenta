@@ -46,5 +46,6 @@
     <string name="email_neverificat">Verificati va rog adresa de email</string>
     <string name="email_parola_trimis">Emailul de resetare al parolei a fost trimis</string>
     <string name="email_parola_netrimis">Emailul de resetare nu a putut fi trimis</string>
+    <string name="pret">Pret</string>
 
 </resources>

@@ -52,8 +52,9 @@ public class ServiciiFragment extends Fragment {
                 String valoare = snapshot.child("Denumire").getValue().toString();
                 String valoare1 = snapshot.child("Descriere").getValue().toString();
                 String valoare2 = snapshot.child("Image").getValue().toString();
+                int valoare3 = Integer.parseInt(snapshot.child("Pret").getValue().toString());
 
-                Serviciu serviciu = new Serviciu(valoare,valoare1,valoare2);
+                Serviciu serviciu = new Serviciu(valoare,valoare1,valoare2,valoare3);
                 servicii.add(serviciu);
                 serviciuAdapter.notifyDataSetChanged();
 

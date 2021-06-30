@@ -14,27 +14,40 @@
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        android:weightSum="3">
+
         <TextView
             android:id="@+id/tv_serviciu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/serviciu"
             android:layout_gravity="left"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/serviciu"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_descriere_serviciu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:textSize="15sp"
+            android:layout_weight="2"
             android:text="@string/descriere_serviciu"
-            android:id="@+id/tv_descriere_serviciu"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_pret_serviciu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/pret"
+            android:textColor="@color/teal_700"
+            android:textSize="15sp"
+
             />
     </LinearLayout>
 

@@ -4,14 +4,13 @@ public class Serviciu {
     private String denumire;
     private String descriere;
     private String imagine;
+    private int pret;
 
-    public Serviciu() {
-    }
-
-    public Serviciu(String denumire, String descriere, String imagine) {
+    public Serviciu(String denumire, String descriere, String imagine, int pret) {
         this.denumire = denumire;
         this.descriere = descriere;
         this.imagine = imagine;
+        this.pret = pret;
     }
 
     public String getDenumire() {
@@ -38,11 +37,21 @@ public class Serviciu {
         this.imagine = imagine;
     }
 
+    public int getPret() {
+        return pret;
+    }
+
+    public void setPret(int pret) {
+        this.pret = pret;
+    }
+
     @Override
     public String toString() {
         return "Serviciu{" +
                 "denumire='" + denumire + '\'' +
                 ", descriere='" + descriere + '\'' +
+                ", imagine='" + imagine + '\'' +
+                ", pret=" + pret +
                 '}';
     }
 }
