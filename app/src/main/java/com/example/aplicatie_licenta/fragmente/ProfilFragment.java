@@ -19,26 +19,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 public class ProfilFragment extends Fragment {
 
-    private GoogleSignInClient mGoogleSignInClient;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profil, container, false);
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(root.getContext(), gso);
 
-        Button btn_delogare = root.findViewById(R.id.btn_delogare);
-        btn_delogare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mGoogleSignInClient.signOut();
-                startActivity(new Intent(root.getContext(), LoginActivity.class));
-            }
-        });
         return root;
     }
 

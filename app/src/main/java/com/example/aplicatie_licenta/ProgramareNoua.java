@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,26 +51,89 @@ public class ProgramareNoua extends AppCompatActivity {
     private Button btnRezerva;
     DatabaseReference databaseReference;
     final Calendar astazi = Calendar.getInstance();
+    private List<String> oreOcupate = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programare_noua);
-
         initViews();
+        Map<String, Object> ore = new HashMap<>();
         populareSpinnere();
         selectareData();
-        Map<String, Object> ore = new HashMap<>();
-        ore.put("11:00",true);
-
+        
         btnRezerva.setOnClickListener(v -> {
             String dataProgramare = tvDataProgramare.getText().toString();
+            if(spOra.getSelectedItem().toString() != null){
+                ore.put(spOra.getSelectedItem().toString(),true);
+            }
+
             databaseReference.child("Programari").child(spSalon.getSelectedItem().toString()).child(spFrizer.getSelectedItem().toString()).child(dataProgramare).updateChildren(ore);
+            databaseReference.child("Utilizatori").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Programari").child(dataProgramare).updateChildren(ore);
+            databaseReference.child("Utilizatori").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Programari").child(dataProgramare).child(spOra.getSelectedItem().toString()).child("Frizer").setValue(spFrizer.getSelectedItem().toString());
+            databaseReference.child("Utilizatori").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Programari").child(dataProgramare).child(spOra.getSelectedItem().toString()).child("Serviciu").setValue(spServiciu.getSelectedItem().toString());
+            databaseReference.child("Utilizatori").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Programari").child(dataProgramare).child(spOra.getSelectedItem().toString()).child("Salon").setValue(spSalon.getSelectedItem().toString());
+            databaseReference.child("Utilizatori").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Programari").child(dataProgramare).child(spOra.getSelectedItem().toString()).child("Anulata").setValue(false);
 
             startActivity(new Intent(ProgramareNoua.this, MenuActivity.class));
         });
 
     }
+
+
+    private List<String> verificaOreDisponibile(String data) {
+        List<String> ore = new ArrayList(Arrays.asList(getResources().getStringArray(R.array.ore)));
+
+
+        List<String> oreIndisponibile = new ArrayList<>();
+
+        preluareOreDinFirebase(data, value -> {
+
+            for(int i=0;i<value.size();i++){
+                for(int j=0;j<ore.size();j++){
+                    if(value.get(i).equals(ore.get(j))){
+                        oreIndisponibile.add(value.get(i));
+                    }
+                }
+            }
+            Log.v("oredisp", ore.get(5).toString());
+            Log.v("oreindisp", oreIndisponibile.toString());
+
+            for(int i=0;i<oreIndisponibile.size();i++){
+                ore.remove(oreIndisponibile.get(i));
+            }
+
+        });
+
+        return ore;
+    }
+
+    private void preluareOreDinFirebase(String dataProgramarii, final PreluareOreCallback preluareOreCallback) {
+        oreOcupate.clear();
+        databaseReference.child("Programari").child(spSalon.getSelectedItem().toString()).child(spFrizer.getSelectedItem().toString()).child(dataProgramarii).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String ora = (String) dataSnapshot.getKey();
+                    oreOcupate.add(ora);
+
+                }
+                Log.v("oreocupate", oreOcupate.toString());
+                preluareOreCallback.onCallback(oreOcupate);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public interface PreluareOreCallback{
+        void onCallback(List<String> value);
+    }
+
 
     void populareSpinnere(){
 
@@ -115,6 +180,7 @@ public class ProgramareNoua extends AppCompatActivity {
         spSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tvDataProgramare.setText(R.string.data_programare);
                 String val = spSalon.getSelectedItem().toString();
                 databaseReference.child("Locatii").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -131,6 +197,7 @@ public class ProgramareNoua extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(ProgramareNoua.this,R.layout.support_simple_spinner_dropdown_item,frizeri);
                         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                         spFrizer.setAdapter(adapter);
+
                     }
 
                     @Override
@@ -138,6 +205,18 @@ public class ProgramareNoua extends AppCompatActivity {
 
                     }
                 });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spFrizer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tvDataProgramare.setText(R.string.data_programare);
             }
 
             @Override
@@ -154,7 +233,7 @@ public class ProgramareNoua extends AppCompatActivity {
         tvDataProgramare = findViewById(R.id.tv_data);
         ibAlegeData = findViewById(R.id.btn_alege_data);
         spOra = findViewById(R.id.sp_ora);
-        spOra.setEnabled(false);
+
         btnRezerva = findViewById(R.id.btn_rezerva_programare);
         databaseReference= FirebaseDatabase.getInstance().getReference();
     }
@@ -166,14 +245,21 @@ public class ProgramareNoua extends AppCompatActivity {
             astazi.set(Calendar.DAY_OF_MONTH,dayOfMonth);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
             tvDataProgramare.setText(simpleDateFormat.format(astazi.getTime()));
+
+            List<String> oreDisponibile = verificaOreDisponibile(simpleDateFormat.format(astazi.getTime()));
+            Log.v("ore", oreDisponibile.toString());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(ProgramareNoua.this,R.layout.support_simple_spinner_dropdown_item,oreDisponibile);
+            adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+            spOra.setAdapter(adapter);
         };
 
         ibAlegeData.setOnClickListener(v -> {
-            spOra.setEnabled(true);
             DatePickerDialog datePickerDialog = new DatePickerDialog( ProgramareNoua.this,onDateSetListener,
                     astazi.get(Calendar.YEAR),astazi.get(Calendar.MONTH),astazi.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+            //datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
             datePickerDialog.show();
+
+
         });
     }
 

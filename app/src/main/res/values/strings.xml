@@ -30,7 +30,7 @@
     <string name="menu_profil">Profil</string>
     <string name="menu_servicii">Servicii</string>
     <string name="menu_frizeri">Frizeri</string>
-    <string name="programare">Adauga programare</string>
+    <string name="programare">Adaugă programare</string>
     <string name="serviciu">Serviciu</string>
     <string name="descriere_serviciu">Descriere serviciu</string>
     <string name="nume_frizer">Nume Frizer</string>
@@ -53,5 +53,18 @@
     <string name="denumire_salon">Denumire</string>
     <string name="adresa">Adresa</string>
     <string name="contact">Contact</string>
+    <string name="desprenoi">Despre noi</string>
+    <string name="profil">Utilizator</string>
+    <string name="menu_programarile_mele">Programările mele</string>
+    <string name="menu_iesire">Ieșire</string>
+    <string name="tvSpOra">Alegeți ora</string>
+    <string name="programare_serviciu">Tip serviciu:</string>
+    <string name="programare_data">Data:</string>
+    <string name="programare_ora">Ora:</string>
+    <string name="programare_frizer">Frizer:</string>
+    <string name="programare_locatie">Locație:</string>
+    <string name="anulare">Doriți anularea programării?</string>
+    <string name="da">Da</string>
+    <string name="nu">Nu</string>
 
 </resources>

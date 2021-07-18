@@ -28,4 +28,15 @@
         android:name="com.example.aplicatie_licenta.fragmente.LocatiiFragment"
         android:label="@string/locatie"
         tools:layout="@layout/fragment_locatii"/>
+
+    <fragment android:id="@+id/nav_programarile_mele"
+        android:name="com.example.aplicatie_licenta.fragmente.ProgramarileMele"
+        android:label="@string/menu_programarile_mele"
+        tools:layout="@layout/fragment_programarile_mele"/>
+
+    <fragment android:id="@+id/nav_iesire"
+        android:name="com.example.aplicatie_licenta.fragmente.IesireFragment"
+        android:label="@string/menu_iesire"
+        tools:layout="@layout/fragment_iesire"/>
+
 </navigation>

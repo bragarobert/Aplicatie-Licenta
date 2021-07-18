@@ -54,7 +54,7 @@ public class MenuActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_profil, R.id.nav_servicii, R.id.nav_frizeri,R.id.nav_locatii)
+                R.id.nav_profil, R.id.nav_servicii, R.id.nav_frizeri,R.id.nav_locatii,R.id.nav_programarile_mele)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -74,4 +74,6 @@ public class MenuActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
